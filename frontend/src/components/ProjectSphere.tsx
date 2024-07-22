@@ -128,11 +128,11 @@ export const ProjectSphere: FC<Props> = (props) => {
 					color="#87CEEB" opacity={opacity} transparent />
 				{
 					props.tasks &&
-					props.tasks.concat(props.tasks).concat(props.tasks).slice(0, 15).map((task, index) => <TaskSphere
+					props.tasks.map((task, index) => <TaskSphere
 						key={index}
 						index={index}
 						projectPosition={sphereRef.current?.position || new Vector3(0, 0, 0)}
-						tasksLength={props.tasks?.concat(props.tasks).concat(props.tasks).slice(0, 15).length || 0}
+						tasksLength={props.tasks?.length || 0}
 						{...task} />)
 				}
 			</Sphere>
