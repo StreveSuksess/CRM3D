@@ -15,7 +15,7 @@ const App: FC = () => {
 		'data',
 		() =>
 			axios.get(import.meta.env.VITE_API_URL).then(res => {
-				return res.data
+				return res.data.slice(0, 1)
 			})
 	)
 
