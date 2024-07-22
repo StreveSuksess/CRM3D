@@ -4,6 +4,7 @@ import { TextMesh } from './TextMesh.tsx'
 import { Mesh, Vector3 } from 'three'
 import { useFrame } from '@react-three/fiber'
 import { IResponseTask } from '../models/responseModels.ts'
+import { addLineBreaks, countChars } from '../utils.ts'
 
 interface Props extends IResponseTask {
 	index: number
@@ -13,22 +14,22 @@ interface Props extends IResponseTask {
 export const TaskSphere: FC<Props> = (props) => {
 	const [textPosition, setTextPosition] = useState<Vector3>()
 	const sphereRef = useRef<Mesh | null>(null)
-	const [shake, setShake] = useState<number>(0)
+	const shake = 0
 
 	useFrame(() => {
 		if (!sphereRef.current || new Date(props.deadline) >= new Date()) return
-		setShake(Math.sin(Date.now() * 0.05) * 0.01)
-		sphereRef.current.position.x = shake + props.position.x
+		// setShake(Math.sin(Date.now() * 0.05) * 0.01)
+		// sphereRef.current.position.x = shake + props.position.x
 	})
 
 	useEffect(() => {
 		if (!sphereRef.current) return
-		setTextPosition(sphereRef.current ? new Vector3(sphereRef.current.position.x - props.task.length / 100, sphereRef.current.position.y + (props.index % 2 === 0 ? 0.15 * 1.5 : 0.15), sphereRef.current.position.z) : new Vector3(0, 0, 0))
+		setTextPosition(sphereRef.current ? new Vector3(sphereRef.current.position.x - 0.085, sphereRef.current.position.y + countChars(addLineBreaks(props.task), '\n') / 20 + 0.15, sphereRef.current.position.z) : new Vector3(0, 0, 0))
 	}, [sphereRef.current, props.position.x, shake])
 
 	return (
 		<>
-			<TextMesh text={props.task}
+			<TextMesh text={addLineBreaks(props.task)}
 								position={textPosition}
 								scale={0.0003} />
 			<Sphere position={props.position} ref={sphereRef} scale={0.1}>

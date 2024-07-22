@@ -15,7 +15,6 @@ const App: FC = () => {
 		'data',
 		() =>
 			axios.get(import.meta.env.VITE_API_URL).then(res => {
-				console.log(res.data)
 				return res.data
 			})
 	)
@@ -33,14 +32,14 @@ const App: FC = () => {
 				enablePan={true}
 				ref={(controls) => {
 					if (!controls) return
-					controls.maxDistance = 10
+					controls.maxDistance = 20
 					if (!lookVector) return
 					controls.target = lookVector
 					controls.zoom0 = 0.1
 					controls.minDistance = 1
 					controls.maxDistance = 2
 					setTimeout(() => {
-						controls.maxDistance = 10
+						controls.maxDistance = 20
 					}, 10)
 				}}
 			/>
@@ -53,7 +52,9 @@ const App: FC = () => {
 						<ProjectSphere lookVector={lookVector} text={project.task} tasks={project.tasks}
 													 setLookVector={setLookVector}
 													 key={index}
-													 index={index} />
+													 index={index}
+													 crmLength={crmData.length}
+						/>
 					)
 				})}
 
