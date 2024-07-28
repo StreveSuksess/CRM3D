@@ -3,15 +3,15 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { FC, useState } from 'react'
 import { Vector3 } from 'three'
-import { ProjectSphere } from './components/ProjectSphere.tsx'
 import axios from 'axios'
 import { useQuery } from 'react-query'
-import { IResponseTask } from './models/responseModels.ts'
+import { IResponseData } from './models/responseModels.ts'
 import { Sky } from './3dModels/Sky.tsx'
+import PriorityGroup from './components/PriorityGroup.tsx'
 
 const App: FC = () => {
 	const [lookVector, setLookVector] = useState<Vector3 | null>()
-	const { isLoading, error, data: crmData } = useQuery<IResponseTask[]>(
+	const { isLoading, error, data: crmData } = useQuery<IResponseData>(
 		'data',
 		() =>
 			axios.get(import.meta.env.VITE_API_URL).then(res => {
@@ -47,16 +47,13 @@ const App: FC = () => {
 			<ambientLight intensity={0.7} />
 			<pointLight position={[10, 5, 10]} intensity={2} />
 			{crmData &&
-				crmData.map((project, index) => {
-					return (
-						<ProjectSphere lookVector={lookVector} text={project.task} tasks={project.tasks}
-													 setLookVector={setLookVector}
-													 key={index}
-													 index={index}
-													 crmLength={crmData.length}
-						/>
-					)
-				})}
+				Object.keys(crmData).map((priority) => {
+					const projects = crmData[+priority]
+
+					return <PriorityGroup priority={+priority} lookVector={lookVector} setLookVector={setLookVector}
+																projects={projects} />
+				})
+			}
 
 
 		</Canvas>

@@ -112,7 +112,7 @@ export const TaskSphere: FC<Props> = (props) => {
 								position={textPosition}
 								scale={0.0003} />
 			<Sphere
-				position={props.tasksLength > 9 ? spherePositions[props.index] : new Vector3(props.projectPosition.x / 25 + positions[props.tasksLength][props.index][0], props.projectPosition.y / 25 + positions[props.tasksLength][props.index][1], props.projectPosition.z + positions[props.tasksLength][props.index][2])}
+				position={props.tasksLength > 9 ? spherePositions[props.index] : new Vector3(props.projectPosition.x / 25 + positions[props.tasksLength][props.index][0], props.projectPosition.y / 25 + positions[props.tasksLength][props.index][1], props.projectPosition.z / 100 + positions[props.tasksLength][props.index][2])}
 				ref={sphereRef} scale={0.1}>
 				<meshBasicMaterial>
 					<GradientTexture

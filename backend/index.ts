@@ -24,7 +24,7 @@ app.get('/data', async (req, res) => {
 	try {
 		conn = await pool.getConnection()
 		let rows = await conn.query('SELECT * FROM tasks')
-		let data: Tasks = rows.map((obj: any) => {
+		let data: Task[] = rows.map((obj: any) => {
 			return Object.fromEntries(
 				Object.entries(obj).map(([key, value]) => [key.toLowerCase(), value])
 			)
@@ -49,7 +49,17 @@ app.get('/data', async (req, res) => {
 			return task
 		})
 
-		res.json(data)
+		const prioritiesData: Tasks = {}
+
+		data.forEach(task => {
+			if (task.priority in prioritiesData) {
+				prioritiesData[task.priority].push(task)
+			} else {
+				prioritiesData[task.priority] = [task]
+			}
+		})
+
+		res.json(prioritiesData)
 	} catch (err) {
 		console.log(err)
 	} finally {
@@ -92,10 +102,13 @@ interface Task {
 	parent_task_name: null | string;
 	flow: string;
 	percentage_completion: number;
+	priority: number;
 	tasks?: Task[]
 }
 
-type Tasks = Task[];
+type Tasks = {
+	[key: string]: Task[]
+};
 
 //DB_HOST=46.41.138.152
 // DB_PASSWORD=38djmqxh!%

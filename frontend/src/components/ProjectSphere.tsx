@@ -9,72 +9,6 @@ import { addLineBreaks, countChars } from '../utils.ts'
 import { TPositions } from '../models/positionModel.ts'
 
 
-const positions: TPositions = {
-	1: {
-		0: [0, 0, 0]
-	},
-	2: {
-		0: [-2, 0, 0],
-		1: [2, 0, 0]
-	},
-	3: {
-		0: [-2, -1, 0],
-		1: [2, -1, 0],
-		2: [0, 1, 0]
-	},
-	4: {
-		0: [-2, -2, 0],
-		1: [2, -2, 0],
-		2: [-2, 2, 0],
-		3: [2, 2, 0]
-	},
-	5: {
-		0: [-3, -2, 0],
-		1: [3, -2, 0],
-		2: [-3, 2, 0],
-		3: [3, 2, 0],
-		4: [0, 0, 0]
-	},
-	6: {
-		0: [-3, -2, 0],
-		1: [0, -2, 0],
-		2: [3, -2, 0],
-		3: [-3, 2, 0],
-		4: [0, 2, 0],
-		5: [3, 2, 0]
-	},
-	7: {
-		0: [-1.5, -3, 0],
-		1: [1.5, -3, 0],
-		2: [-3, 0, 0],
-		3: [0, 0, 0],
-		4: [3, 0, 0],
-		5: [-1.5, 3, 0],
-		6: [1.5, 3, 0]
-	},
-	8: {
-		0: [-3, -3, 0],
-		1: [0, -3, 0],
-		2: [3, -3, 0],
-		3: [-3, 0, 0],
-		4: [0, 0, 0],
-		5: [3, 0, 0],
-		6: [-1.5, 3, 0],
-		7: [1.5, 3, 0]
-	},
-	9: {
-		0: [-3, -3, 0],
-		1: [0, -3, 0],
-		2: [3, -3, 0],
-		3: [-3, 0, 0],
-		4: [0, 0, 0],
-		5: [3, 0, 0],
-		6: [-3, 3, 0],
-		7: [0, 3, 0],
-		8: [3, 3, 0]
-	}
-}
-
 type Props = {
 	crmLength: number,
 	index: number,
@@ -82,6 +16,7 @@ type Props = {
 	text: IResponseTask['task'],
 	tasks: IResponseTask['tasks'],
 	lookVector: Vector3 | null | undefined,
+	zCoordinate: number,
 }
 
 export const ProjectSphere: FC<Props> = (props) => {
@@ -95,8 +30,9 @@ export const ProjectSphere: FC<Props> = (props) => {
 
 	useEffect(() => {
 		if (!sphereRef.current) return
-		setTextPosition(sphereRef.current ? new Vector3(-0.85, (countChars(addLineBreaks(props.text), '\n')) * 0.5 + 1.2, sphereRef.current.position.z) : new Vector3(0, 0, 0))
-	}, [sphereRef.current, sphereRef.current?.position.x])
+		console.log(sphereRef.current.position.z)
+		setTextPosition(sphereRef.current ? new Vector3(-0.85, (countChars(addLineBreaks(props.text), '\n')) * 0.5 + 1.2, sphereRef.current.position.z / 100) : new Vector3(0, 0, 0))
+	}, [sphereRef.current, sphereRef.current?.position.x, sphereRef.current?.position.z])
 
 
 	const spherePositions: Vector3[] = useMemo(() => {
@@ -109,6 +45,72 @@ export const ProjectSphere: FC<Props> = (props) => {
 		}
 		return positions
 	}, [props.crmLength])
+
+	const positions: TPositions = {
+		1: {
+			0: [0, 0, props.zCoordinate]
+		},
+		2: {
+			0: [-2, 0, props.zCoordinate],
+			1: [2, 0, props.zCoordinate]
+		},
+		3: {
+			0: [-2, -1, props.zCoordinate],
+			1: [2, -1, props.zCoordinate],
+			2: [0, 1, props.zCoordinate]
+		},
+		4: {
+			0: [-2, -2, props.zCoordinate],
+			1: [2, -2, props.zCoordinate],
+			2: [-2, 2, props.zCoordinate],
+			3: [2, 2, props.zCoordinate]
+		},
+		5: {
+			0: [-3, -2, props.zCoordinate],
+			1: [3, -2, props.zCoordinate],
+			2: [-3, 2, props.zCoordinate],
+			3: [3, 2, props.zCoordinate],
+			4: [0, 0, props.zCoordinate]
+		},
+		6: {
+			0: [-3, -2, props.zCoordinate],
+			1: [0, -2, props.zCoordinate],
+			2: [3, -2, props.zCoordinate],
+			3: [-3, 2, props.zCoordinate],
+			4: [0, 2, props.zCoordinate],
+			5: [3, 2, props.zCoordinate]
+		},
+		7: {
+			0: [-1.5, -3, props.zCoordinate],
+			1: [1.5, -3, props.zCoordinate],
+			2: [-3, 0, props.zCoordinate],
+			3: [0, 0, props.zCoordinate],
+			4: [3, 0, props.zCoordinate],
+			5: [-1.5, 3, props.zCoordinate],
+			6: [1.5, 3, props.zCoordinate]
+		},
+		8: {
+			0: [-3, -3, props.zCoordinate],
+			1: [0, -3, props.zCoordinate],
+			2: [3, -3, props.zCoordinate],
+			3: [-3, 0, props.zCoordinate],
+			4: [0, 0, props.zCoordinate],
+			5: [3, 0, props.zCoordinate],
+			6: [-1.5, 3, props.zCoordinate],
+			7: [1.5, 3, props.zCoordinate]
+		},
+		9: {
+			0: [-3, -3, props.zCoordinate],
+			1: [0, -3, props.zCoordinate],
+			2: [3, -3, props.zCoordinate],
+			3: [-3, 0, props.zCoordinate],
+			4: [0, 0, props.zCoordinate],
+			5: [3, 0, props.zCoordinate],
+			6: [-3, 3, props.zCoordinate],
+			7: [0, 3, props.zCoordinate],
+			8: [3, 3, props.zCoordinate]
+		}
+	}
 
 	return (
 		<>

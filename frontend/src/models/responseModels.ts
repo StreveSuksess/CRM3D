@@ -31,3 +31,7 @@ export interface IResponseTask {
 	percentage_completion: number;
 	tasks?: IResponseTask[]
 }
+
+export interface IResponseData {
+	[key: number]: IResponseTask[];
+}
