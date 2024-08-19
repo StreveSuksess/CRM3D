@@ -109,8 +109,3 @@ interface Task {
 type Tasks = {
 	[key: string]: Task[]
 };
-
-//DB_HOST=46.41.138.152
-// DB_PASSWORD=38djmqxh!%
-// DB_USER=xyz
-// DB_NAME=PROJECTX01
